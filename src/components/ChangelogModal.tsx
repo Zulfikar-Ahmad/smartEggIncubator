@@ -1,4 +1,5 @@
 import { X } from "lucide-react";
+import { createPortal } from "react-dom";
 
 interface ChangelogModalProps {
   onClose: () => void;
@@ -63,8 +64,8 @@ const CHANGELOG_DATA = [
 ];
 
 export function ChangelogModal({ onClose }: ChangelogModalProps) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
       <div className="bg-gray-800 rounded-xl shadow-2xl border border-gray-700 w-full max-w-2xl overflow-hidden flex flex-col max-h-[85vh]">
         {/* Header */}
         <div className="px-6 py-4 border-b border-gray-700 flex justify-between items-center bg-gray-800/80 sticky top-0 z-10">
@@ -117,6 +118,7 @@ export function ChangelogModal({ onClose }: ChangelogModalProps) {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
