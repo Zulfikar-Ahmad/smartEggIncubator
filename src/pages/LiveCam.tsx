@@ -33,7 +33,7 @@ export function LiveCam() {
     const client = mqtt.connect('wss://test.mosquitto.org:8081/mqtt');
     mqttClientRef.current = client;
     
-    let connectionTimeout: NodeJS.Timeout;
+    let statusTimeout: NodeJS.Timeout;
 
     client.on('connect', () => {
       console.log('Connected to Mosquitto Public Broker');
@@ -42,19 +42,17 @@ export function LiveCam() {
         client.subscribe('smart-egg-incubator/cam/frame/7x9Qz2pL4mK8wR5v');
       }
 
-      // Default to offline if no status message is received from Mosquitto after 5 seconds
-      connectionTimeout = setTimeout(() => {
+      // If no status message is received within 3 seconds, assume offline
+      // (Mosquitto public broker often drops retained messages)
+      statusTimeout = setTimeout(() => {
         setIsOnline((prev) => (prev === null ? false : prev));
-      }, 5000);
+      }, 3000);
     });
 
     client.on('message', (topic, message) => {
       if (topic === 'smart-egg-incubator/cam/status') {
         setIsOnline(message.toString() === 'online');
-        clearTimeout(connectionTimeout);
       } else if (topic === 'smart-egg-incubator/cam/frame/7x9Qz2pL4mK8wR5v') {
-        setIsOnline(true);
-        clearTimeout(connectionTimeout);
         const blob = new Blob([new Uint8Array(message)], { type: 'image/jpeg' });
         const url = URL.createObjectURL(blob);
         
@@ -80,7 +78,7 @@ export function LiveCam() {
     });
 
     return () => {
-      clearTimeout(connectionTimeout);
+      clearTimeout(statusTimeout);
       unsubscribeControls();
       client.end();
       setFrameUrl((prevUrl) => {
@@ -88,7 +86,7 @@ export function LiveCam() {
         return null;
       });
     };
-  }, [isStreaming]);
+  }, []);
 
   const toggleStream = () => {
     set(ref(db, 'camera/controls/stream_active'), !isStreaming);
