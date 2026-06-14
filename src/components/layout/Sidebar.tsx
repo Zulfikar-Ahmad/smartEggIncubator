@@ -81,6 +81,13 @@ export function Sidebar({ onClose }: SidebarProps) {
             <p className="text-sm font-medium text-gray-400 leading-tight tracking-wide">
               Incubator
             </p>
+            <button
+              onClick={() => setShowChangelog(true)}
+              className="text-xs font-mono text-gray-500 hover:text-blue-400 transition-colors text-left"
+              title="View Release Notes"
+            >
+              v1.3.1
+            </button>
           </div>
         </div>
         {onClose && (
@@ -149,20 +156,11 @@ export function Sidebar({ onClose }: SidebarProps) {
             </span>
           </button>
         </div>
-
-        {/* Version Indicator */}
-        <div className="mt-4 flex justify-center lg:justify-start lg:px-4">
-          <button
-            onClick={() => setShowChangelog(true)}
-            className="text-xs font-mono text-gray-500 hover:text-blue-400 transition-colors"
-            title="View Release Notes"
-          >
-            v1.3.1
-          </button>
-        </div>
       </nav>
 
-      {showChangelog && <ChangelogModal onClose={() => setShowChangelog(false)} />}
+      {showChangelog && (
+        <ChangelogModal onClose={() => setShowChangelog(false)} />
+      )}
     </div>
   );
 }
