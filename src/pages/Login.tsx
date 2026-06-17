@@ -233,16 +233,16 @@ export function Login() {
   };
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen flex items-center justify-center p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-xl dark:shadow-lg border border-gray-200 dark:border-gray-700 w-full max-w-md relative z-10">
+    <div className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen flex items-center justify-center p-4 transition-colors">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-lg border border-gray-200 dark:border-gray-700 w-full max-w-md relative z-10 transition-colors">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center p-3 bg-blue-600 rounded-xl mb-4">
             <ShieldCheck className="w-8 h-8 text-white" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white transition-colors">
             {isLoginMode ? "Welcome Back" : "Create Account"}
           </h2>
-          <p className="text-gray-500 dark:text-gray-400 text-sm mt-2">
+          <p className="text-gray-500 dark:text-gray-400 text-sm mt-2 transition-colors">
             {isLoginMode
               ? "Sign in to access your dashboard"
               : "Register a new account to continue"}
@@ -253,8 +253,8 @@ export function Login() {
           <div
             className={`mb-4 p-3 rounded border text-sm text-center ${
               error.type === "error"
-                ? "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500 text-red-600 dark:text-red-500"
-                : "bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500 text-green-600 dark:text-green-500"
+                ? "bg-red-500/10 border-red-500 text-red-500"
+                : "bg-green-500/10 border-green-500 text-green-500"
             }`}
           >
             {error.message}
@@ -266,7 +266,7 @@ export function Login() {
             <>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
                     First Name <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -274,12 +274,12 @@ export function Login() {
                     required
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
-                    className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
+                    className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
                     placeholder="John"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
                     Last Name <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -287,26 +287,26 @@ export function Login() {
                     required
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
-                    className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
+                    className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
                     placeholder="Doe"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
                   Username <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <UserIcon className="w-5 h-5 text-gray-400 dark:text-gray-500" />
+                    <UserIcon className="w-5 h-5 text-gray-400 dark:text-gray-500 transition-colors" />
                   </div>
                   <input
                     type="text"
                     required
                     value={username}
                     onChange={(e) => setUsername(e.target.value.toLowerCase())}
-                    className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg pl-10 pr-4 py-2.5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
+                    className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg pl-10 pr-4 py-2.5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
                     placeholder="johndoe"
                   />
                 </div>
@@ -315,19 +315,19 @@ export function Login() {
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
               {isLoginMode ? "Email or Username" : "Email"}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Mail className="w-5 h-5 text-gray-400 dark:text-gray-500" />
+                <Mail className="w-5 h-5 text-gray-400 dark:text-gray-500 transition-colors" />
               </div>
               <input
                 type="text"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg pl-10 pr-4 py-2.5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg pl-10 pr-4 py-2.5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
                 placeholder={
                   isLoginMode ? "you@example.com or johndoe" : "you@example.com"
                 }
@@ -336,19 +336,19 @@ export function Login() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
               Password
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Lock className="w-5 h-5 text-gray-400 dark:text-gray-500" />
+                <Lock className="w-5 h-5 text-gray-400 dark:text-gray-500 transition-colors" />
               </div>
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg pl-10 pr-4 py-2.5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg pl-10 pr-4 py-2.5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
                 placeholder="••••••••"
               />
             </div>
@@ -356,19 +356,19 @@ export function Login() {
 
           {!isLoginMode && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
                 Retype Password
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="w-5 h-5 text-gray-400 dark:text-gray-500" />
+                  <Lock className="w-5 h-5 text-gray-400 dark:text-gray-500 transition-colors" />
                 </div>
                 <input
                   type="password"
                   required
                   value={retypePassword}
                   onChange={(e) => setRetypePassword(e.target.value)}
-                  className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg pl-10 pr-4 py-2.5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
+                  className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg pl-10 pr-4 py-2.5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
                   placeholder="••••••••"
                 />
               </div>
@@ -381,7 +381,7 @@ export function Login() {
                 <div className="relative flex items-center justify-center w-5 h-5">
                   <input
                     type="checkbox"
-                    className="peer appearance-none w-5 h-5 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-900 checked:bg-blue-600 checked:border-blue-600 transition-colors cursor-pointer"
+                    className="peer appearance-none w-5 h-5 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-900 checked:bg-blue-600 checked:border-blue-600 transition-colors cursor-pointer"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
                   />
@@ -401,7 +401,7 @@ export function Login() {
                     </svg>
                   </div>
                 </div>
-                <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-300 transition-colors select-none">
+                <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-300 transition-colors select-none">
                   Remember me
                 </span>
               </label>
@@ -432,7 +432,7 @@ export function Login() {
           </button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+        <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400 transition-colors">
           <span>
             {isLoginMode
               ? "Don't have an account?"
@@ -453,12 +453,12 @@ export function Login() {
       {/* Forgot Password Modal */}
       {showForgotModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 w-full max-w-sm overflow-hidden shadow-2xl">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 w-full max-w-sm overflow-hidden shadow-2xl transition-colors">
             <div className="p-6">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 transition-colors">
                 Reset Password
               </h3>
-              <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">
+              <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 transition-colors">
                 Enter your email address and we'll send you a link to reset your
                 password.
               </p>
@@ -467,8 +467,8 @@ export function Login() {
                 <div
                   className={`mb-4 p-3 rounded border text-sm ${
                     resetStatus.type === "error"
-                      ? "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500 text-red-600 dark:text-red-500"
-                      : "bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500 text-green-600 dark:text-green-500"
+                      ? "bg-red-500/10 border-red-500 text-red-500"
+                      : "bg-green-500/10 border-green-500 text-green-500"
                   }`}
                 >
                   {resetStatus.message}
@@ -476,14 +476,14 @@ export function Login() {
               )}
 
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
                   Email Address
                 </label>
                 <input
                   type="email"
                   value={resetEmail}
                   onChange={(e) => setResetEmail(e.target.value)}
-                  className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
+                  className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
                   placeholder="you@example.com"
                 />
               </div>
@@ -491,7 +491,7 @@ export function Login() {
               <div className="flex gap-3 mt-6">
                 <button
                   onClick={() => setShowForgotModal(false)}
-                  className="flex-1 px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded-lg font-medium transition-colors"
+                  className="flex-1 px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-white rounded-lg font-medium transition-colors"
                 >
                   Cancel
                 </button>

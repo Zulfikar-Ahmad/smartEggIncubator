@@ -225,9 +225,9 @@ export function Dashboard() {
     <div className="space-y-6">
       {/* Device Status */}
       <div className="mb-4 lg:mb-8">
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700 transition-colors">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-gray-900 dark:text-white">ESP32 DevKit v1</h3>
+            <h3 className="font-semibold text-gray-900 dark:text-white transition-colors">ESP32 DevKit v1</h3>
             {isConnected ? (
               <div className="flex items-center gap-2 px-3 py-1 rounded-full text-sm bg-green-500/20 text-green-400">
                 <Wifi className="w-4 h-4" />
@@ -242,29 +242,29 @@ export function Dashboard() {
           </div>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between gap-4">
-              <span className="text-gray-500 dark:text-gray-400 whitespace-nowrap">
+              <span className="text-gray-500 dark:text-gray-400 whitespace-nowrap transition-colors">
                 IP Address:
               </span>
-              <span className="font-mono text-gray-900 dark:text-white truncate">
+              <span className="font-mono text-gray-900 dark:text-white truncate transition-colors">
                 {isConnected && data?.ip ? data.ip : "Unavailable"}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500 dark:text-gray-400">Uptime:</span>
-              <span className="text-gray-900 dark:text-white">
+              <span className="text-gray-500 dark:text-gray-400 transition-colors">Uptime:</span>
+              <span className="text-gray-900 dark:text-white transition-colors">
                 {isConnected && data ? formatUptime(data.uptime) : "--"}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-500 dark:text-gray-400">Signal:</span>
+              <span className="text-gray-500 dark:text-gray-400 transition-colors">Signal:</span>
               <div className="flex items-center gap-2">
-                <div className="w-24 h-2 bg-gray-700 rounded-full overflow-hidden">
+                <div className="w-24 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden transition-colors">
                   <div
-                    className={`h-full ${isConnected ? "bg-green-500" : "bg-gray-700"}`}
+                    className={`h-full transition-colors ${isConnected ? "bg-green-500" : "bg-gray-300 dark:bg-gray-600"}`}
                     style={{ width: `${isConnected ? data?.signalStrength || 0 : 0}%` }}
                   ></div>
                 </div>
-                <span className="text-gray-900 dark:text-white">{isConnected ? data?.signalStrength || 0 : 0}%</span>
+                <span className="text-gray-900 dark:text-white transition-colors">{isConnected ? data?.signalStrength || 0 : 0}%</span>
               </div>
             </div>
           </div>
@@ -273,7 +273,7 @@ export function Dashboard() {
 
       {/* Sensor Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 mb-4 lg:mb-8">
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700 transition-colors">
           <div className="flex items-start justify-between mb-4">
             <div className={`p-3 rounded-lg ${tempStatusBg}`}>
               <Thermometer className="w-6 h-6" />
@@ -283,30 +283,30 @@ export function Dashboard() {
             </div>
           </div>
           <div className="space-y-1">
-            <p className="text-sm text-gray-500 dark:text-gray-400">Temperature</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 transition-colors">Temperature</p>
             <div className="flex items-baseline gap-1">
-              <span className="text-3xl font-semibold text-gray-900 dark:text-white">
+              <span className="text-3xl font-semibold text-gray-900 dark:text-white transition-colors">
                 {tempVal.toFixed(1)}
               </span>
-              <span className="text-sm text-gray-500 dark:text-gray-400">°C</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400 transition-colors">°C</span>
             </div>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700 transition-colors">
           <div className="flex items-start justify-between mb-4">
             <div className="p-3 rounded-lg bg-green-500/10 text-green-500">
               <Droplets className="w-6 h-6" />
             </div>
-            <div className="text-base font-bold text-gray-500 dark:text-gray-400">→</div>
+            <div className="text-base font-bold text-gray-400 dark:text-gray-500 transition-colors">→</div>
           </div>
           <div className="space-y-1">
-            <p className="text-sm text-gray-500 dark:text-gray-400">Humidity</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 transition-colors">Humidity</p>
             <div className="flex items-baseline gap-1">
-              <span className="text-3xl font-semibold text-gray-900 dark:text-white">
+              <span className="text-3xl font-semibold text-gray-900 dark:text-white transition-colors">
                 {(data?.humidity || 0).toFixed(0)}
               </span>
-              <span className="text-sm text-gray-500 dark:text-gray-400">%</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400 transition-colors">%</span>
             </div>
           </div>
         </div>
@@ -314,18 +314,18 @@ export function Dashboard() {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mb-4 lg:mb-8">
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700 transition-colors">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-4">
-            <h3 className="font-semibold text-gray-900 dark:text-white">Temperature Chart</h3>
-            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400">
+            <h3 className="font-semibold text-gray-900 dark:text-white transition-colors">Temperature Chart</h3>
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400 transition-colors">
               <span>
-                Min: <strong className="text-gray-900 dark:text-white">{tempStats.min}</strong>
+                Min: <strong className="text-gray-900 dark:text-white transition-colors">{tempStats.min}</strong>
               </span>
               <span>
-                Max: <strong className="text-gray-900 dark:text-white">{tempStats.max}</strong>
+                Max: <strong className="text-gray-900 dark:text-white transition-colors">{tempStats.max}</strong>
               </span>
               <span>
-                Avg: <strong className="text-gray-900 dark:text-white">{tempStats.avg}</strong>
+                Avg: <strong className="text-gray-900 dark:text-white transition-colors">{tempStats.avg}</strong>
               </span>
             </div>
           </div>
@@ -369,18 +369,18 @@ export function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700 transition-colors">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-4">
-            <h3 className="font-semibold text-gray-900 dark:text-white">Humidity Chart</h3>
-            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400">
+            <h3 className="font-semibold text-gray-900 dark:text-white transition-colors">Humidity Chart</h3>
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400 transition-colors">
               <span>
-                Min: <strong className="text-gray-900 dark:text-white">{humStats.min}</strong>
+                Min: <strong className="text-gray-900 dark:text-white transition-colors">{humStats.min}</strong>
               </span>
               <span>
-                Max: <strong className="text-gray-900 dark:text-white">{humStats.max}</strong>
+                Max: <strong className="text-gray-900 dark:text-white transition-colors">{humStats.max}</strong>
               </span>
               <span>
-                Avg: <strong className="text-gray-900 dark:text-white">{humStats.avg}</strong>
+                Avg: <strong className="text-gray-900 dark:text-white transition-colors">{humStats.avg}</strong>
               </span>
             </div>
           </div>
@@ -427,19 +427,19 @@ export function Dashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mb-4 lg:mb-8">
         {/* Device Control */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-          <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Device Control</h3>
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700 transition-colors">
+          <h3 className="font-semibold text-gray-900 dark:text-white mb-4 transition-colors">Device Control</h3>
           <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+            <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg transition-colors border border-gray-100 dark:border-transparent">
               <div className="flex items-center gap-3">
                 <Zap
-                  className={`w-5 h-5 ${flashOn ? "text-blue-400" : "text-gray-500"}`}
+                  className={`w-5 h-5 ${flashOn ? "text-blue-500 dark:text-blue-400" : "text-gray-400 dark:text-gray-500"}`}
                 />
-                <span className="text-sm text-gray-900 dark:text-white">Camera Flash</span>
+                <span className="text-sm text-gray-900 dark:text-white transition-colors">Camera Flash</span>
               </div>
               <button
                 onClick={toggleFlash}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${flashOn ? "bg-blue-600" : "bg-gray-600"}`}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${flashOn ? "bg-blue-600" : "bg-gray-300 dark:bg-gray-600"}`}
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${flashOn ? "translate-x-6" : "translate-x-1"}`}
@@ -447,16 +447,16 @@ export function Dashboard() {
               </button>
             </div>
 
-            <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+            <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg transition-colors border border-gray-100 dark:border-transparent">
               <div className="flex items-center gap-3">
                 <Flame
-                  className={`w-5 h-5 ${heaterOn ? "text-blue-400" : "text-gray-500"}`}
+                  className={`w-5 h-5 ${heaterOn ? "text-blue-500 dark:text-blue-400" : "text-gray-400 dark:text-gray-500"}`}
                 />
-                <span className="text-sm text-gray-900 dark:text-white">Heater (Auto)</span>
+                <span className="text-sm text-gray-900 dark:text-white transition-colors">Heater (Auto)</span>
               </div>
               <button
                 onClick={toggleHeater}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${heaterOn ? "bg-blue-600" : "bg-gray-600"}`}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${heaterOn ? "bg-blue-600" : "bg-gray-300 dark:bg-gray-600"}`}
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${heaterOn ? "translate-x-6" : "translate-x-1"}`}
@@ -467,9 +467,9 @@ export function Dashboard() {
         </div>
 
         {/* Motor Configuration */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-          <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Motor Configuration</h3>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700 transition-colors">
+          <h3 className="font-semibold text-gray-900 dark:text-white mb-4 transition-colors">Motor Configuration</h3>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
             Motor Interval (Minutes)
           </label>
           <div className="flex flex-col sm:flex-row gap-3 mb-6">
@@ -478,7 +478,7 @@ export function Dashboard() {
               value={motorInterval}
               onChange={(e) => setMotorInterval(e.target.value)}
               min="1"
-              className="flex-1 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
+              className="flex-1 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
               placeholder="Interval (min)"
             />
             <button
@@ -489,9 +489,9 @@ export function Dashboard() {
             </button>
           </div>
 
-          <hr className="border-gray-200 dark:border-gray-700 my-6" />
+          <hr className="border-gray-200 dark:border-gray-700 my-6 transition-colors" />
 
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
             Manual Override
           </label>
           <button

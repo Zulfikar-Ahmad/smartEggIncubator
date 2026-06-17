@@ -6,10 +6,10 @@ import {
   EmailAuthProvider,
   sendPasswordResetEmail,
   sendEmailVerification,
-  deleteUser,
 } from "firebase/auth";
 import { auth, db } from "../lib/firebase";
 import { ref, get, set, remove, onValue } from "firebase/database";
+import { deleteUser } from "firebase/auth";
 import {
   Key,
   Mail,
@@ -17,7 +17,6 @@ import {
   CheckCircle2,
   User as UserIcon,
   Trash2,
-  AlertTriangle,
 } from "lucide-react";
 
 export function UserManagement() {
@@ -53,9 +52,7 @@ export function UserManagement() {
   } | null>(null);
   const [profileLoading, setProfileLoading] = useState(false);
 
-  // Delete Account State
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [deletePassword, setDeletePassword] = useState("");
+  // Delete account state
   const [deleteStatus, setDeleteStatus] = useState<{
     message: string;
     type: "error" | "success";
@@ -264,30 +261,37 @@ export function UserManagement() {
     }
   };
 
-  const handleDeleteAccount = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setDeleteStatus(null);
-    if (!user || !user.email) return;
+  const handleDeleteAccount = async () => {
+    if (!user) return;
+    
+    if (!window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+      return;
+    }
 
     setDeleteLoading(true);
+    setDeleteStatus(null);
     try {
-      const credential = EmailAuthProvider.credential(user.email, deletePassword);
-      await reauthenticateWithCredential(user, credential);
-      
-      // Delete user data from database
-      await remove(ref(db, `users/${user.uid}`));
+      // Clean up RTDB first
       if (originalUsername) {
         const safeUsername = originalUsername.replace(/\./g, ',');
         await remove(ref(db, `usernames/${safeUsername}`));
       }
-      
-      // Delete user authentication record
+      await remove(ref(db, `users/${user.uid}`));
+
+      // Delete auth user
       await deleteUser(user);
-      
-      // User will automatically be signed out and redirected
+      // User will be automatically signed out and redirected by onAuthStateChanged in App/Login
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setDeleteStatus({ message: err.message, type: "error" });
+        // Handle "requires-recent-login"
+        if (err.message.includes("recent-login")) {
+          setDeleteStatus({ 
+            message: "Please log out and log back in to verify your identity before deleting your account.", 
+            type: "error" 
+          });
+        } else {
+          setDeleteStatus({ message: err.message, type: "error" });
+        }
       } else {
         setDeleteStatus({
           message: "An unexpected error occurred",
@@ -301,12 +305,12 @@ export function UserManagement() {
 
   return (
     <div className="space-y-6 max-w-4xl">
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 shadow-sm flex items-center gap-3 sm:gap-4">
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 shadow-sm flex items-center gap-3 sm:gap-4 transition-colors">
         <div className="w-12 h-12 sm:w-16 sm:h-16 shrink-0 bg-blue-600 rounded-full flex items-center justify-center text-xl sm:text-2xl font-bold text-white shadow-inner">
           {user?.email?.charAt(0).toUpperCase() || "U"}
         </div>
         <div className="min-w-0">
-          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white truncate">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white truncate transition-colors">
             {user?.email || "Loading..."}
           </h2>
           <div className="flex flex-wrap items-center gap-2 mt-1">
@@ -315,18 +319,18 @@ export function UserManagement() {
                 <CheckCircle2 className="w-3 h-3" /> Verified
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1 text-xs font-medium text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-500/10 px-2 py-0.5 rounded-full border border-yellow-200 dark:border-yellow-500/20">
+              <span className="inline-flex items-center gap-1 text-xs font-medium text-yellow-400 bg-yellow-500/10 px-2 py-0.5 rounded-full border border-yellow-500/20">
                 <ShieldAlert className="w-3 h-3" /> Unverified
               </span>
             )}
-            <span className="text-xs text-gray-500 dark:text-gray-400">UID: {user?.uid}</span>
+            <span className="text-xs text-gray-500 dark:text-gray-400 transition-colors">UID: {user?.uid}</span>
           </div>
         </div>
       </div>
 
       {/* Profile Information */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 shadow-sm transition-colors">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2 transition-colors">
           <UserIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
           Profile Information
         </h3>
@@ -335,8 +339,8 @@ export function UserManagement() {
           <div
             className={`mb-4 p-3 rounded border text-sm ${
               profileStatus.type === "error"
-                ? "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500 text-red-600 dark:text-red-500"
-                : "bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500 text-green-600 dark:text-green-500"
+                ? "bg-red-500/10 border-red-500 text-red-500"
+                : "bg-green-500/10 border-green-500 text-green-500"
             }`}
           >
             {profileStatus.message}
@@ -346,7 +350,7 @@ export function UserManagement() {
         <form onSubmit={handleUpdateProfile} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors">
                 First Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -354,11 +358,11 @@ export function UserManagement() {
                 required
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
+                className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors">
                 Last Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -366,12 +370,12 @@ export function UserManagement() {
                 required
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
+                className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
               />
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors">
               Username <span className="text-red-500">*</span>
             </label>
             <input
@@ -379,7 +383,7 @@ export function UserManagement() {
               required
               value={username}
               onChange={(e) => setUsername(e.target.value.toLowerCase())}
-              className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
+              className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
             />
             <p className="text-xs text-gray-500 mt-1">
               Only lowercase letters, numbers, and ._-@
@@ -397,9 +401,9 @@ export function UserManagement() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         {/* Change Password */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 shadow-sm transition-colors">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 sm:mb-6">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2 transition-colors">
               <Key className="w-5 h-5 text-gray-500 dark:text-gray-400" />
               Change Password
             </h3>
@@ -415,8 +419,8 @@ export function UserManagement() {
             <div
               className={`mb-4 p-3 rounded border text-sm ${
                 pwdStatus.type === "error"
-                  ? "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500 text-red-600 dark:text-red-500"
-                  : "bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500 text-green-600 dark:text-green-500"
+                  ? "bg-red-500/10 border-red-500 text-red-500"
+                  : "bg-green-500/10 border-green-500 text-green-500"
               }`}
             >
               {pwdStatus.message}
@@ -425,7 +429,7 @@ export function UserManagement() {
 
           <form onSubmit={handleChangePassword} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors">
                 Current Password
               </label>
               <input
@@ -433,11 +437,11 @@ export function UserManagement() {
                 required
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
-                className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
+                className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors">
                 New Password
               </label>
               <input
@@ -445,11 +449,11 @@ export function UserManagement() {
                 required
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
+                className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors">
                 Retype New Password
               </label>
               <input
@@ -457,7 +461,7 @@ export function UserManagement() {
                 required
                 value={retypePassword}
                 onChange={(e) => setRetypePassword(e.target.value)}
-                className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
+                className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
               />
             </div>
             <button
@@ -471,8 +475,8 @@ export function UserManagement() {
         </div>
 
         {/* Change Email */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 shadow-sm h-fit">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center gap-2">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 shadow-sm h-fit transition-colors">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center gap-2 transition-colors">
             <Mail className="w-5 h-5 text-gray-500 dark:text-gray-400" />
             Change Email
           </h3>
@@ -481,8 +485,8 @@ export function UserManagement() {
             <div
               className={`mb-4 p-3 rounded border text-sm ${
                 emailStatus.type === "error"
-                  ? "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500 text-red-600 dark:text-red-500"
-                  : "bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500 text-green-600 dark:text-green-500"
+                  ? "bg-red-500/10 border-red-500 text-red-500"
+                  : "bg-green-500/10 border-green-500 text-green-500"
               }`}
             >
               {emailStatus.message}
@@ -491,7 +495,7 @@ export function UserManagement() {
 
           <form onSubmit={handleChangeEmail} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors">
                 New Email Address
               </label>
               <input
@@ -499,11 +503,11 @@ export function UserManagement() {
                 required
                 value={newEmail}
                 onChange={(e) => setNewEmail(e.target.value)}
-                className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
+                className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors">
                 Current Password (to verify)
               </label>
               <input
@@ -511,7 +515,7 @@ export function UserManagement() {
                 required
                 value={emailPassword}
                 onChange={(e) => setEmailPassword(e.target.value)}
-                className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
+                className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
               />
             </div>
             <button
@@ -523,86 +527,38 @@ export function UserManagement() {
             </button>
           </form>
         </div>
-      </div>
-      {/* Delete Account */}
-      <div className="bg-red-50 dark:bg-red-900/10 rounded-xl p-4 sm:p-6 border border-red-200 dark:border-red-900/50 shadow-sm mt-8">
-        <h3 className="text-lg font-semibold text-red-600 dark:text-red-500 mb-2 flex items-center gap-2">
-          <Trash2 className="w-5 h-5" />
-          Delete Account
-        </h3>
-        <p className="text-sm text-red-700 dark:text-red-400 mb-4">
-          Permanently delete your account and all of your data. This action cannot be undone.
-        </p>
-        <button
-          onClick={() => setShowDeleteModal(true)}
-          className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
-        >
-          Delete Account
-        </button>
-      </div>
 
-      {/* Delete Account Modal */}
-      {showDeleteModal && (
-        <div className="fixed inset-0 bg-black/50 dark:bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 w-full max-w-md shadow-2xl p-6">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-12 h-12 bg-red-100 dark:bg-red-500/20 rounded-full flex items-center justify-center shrink-0">
-                <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-500" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">Delete Account</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">This action is irreversible.</p>
-              </div>
+        {/* Delete Account */}
+        <div className="bg-red-50 dark:bg-red-900/10 rounded-xl p-4 sm:p-6 border border-red-200 dark:border-red-900/30 shadow-sm md:col-span-2 transition-colors">
+          <h3 className="text-lg font-semibold text-red-600 dark:text-red-500 mb-2 flex items-center gap-2 transition-colors">
+            <Trash2 className="w-5 h-5" />
+            Delete Account
+          </h3>
+          <p className="text-sm text-red-600/80 dark:text-red-400/80 mb-4 transition-colors">
+            Once you delete your account, there is no going back. Please be certain.
+          </p>
+
+          {deleteStatus && (
+            <div
+              className={`mb-4 p-3 rounded border text-sm ${
+                deleteStatus.type === "error"
+                  ? "bg-red-100 dark:bg-red-500/10 border-red-200 dark:border-red-500 text-red-600 dark:text-red-500"
+                  : "bg-green-100 dark:bg-green-500/10 border-green-200 dark:border-green-500 text-green-600 dark:text-green-500"
+              }`}
+            >
+              {deleteStatus.message}
             </div>
-            
-            {deleteStatus && (
-              <div
-                className={`mb-4 p-3 rounded border text-sm ${
-                  deleteStatus.type === "error"
-                    ? "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500 text-red-600 dark:text-red-500"
-                    : "bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500 text-green-600 dark:text-green-500"
-                }`}
-              >
-                {deleteStatus.message}
-              </div>
-            )}
+          )}
 
-            <form onSubmit={handleDeleteAccount}>
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Enter Password to Confirm
-                </label>
-                <input
-                  type="password"
-                  required
-                  value={deletePassword}
-                  onChange={(e) => setDeletePassword(e.target.value)}
-                  className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-red-500"
-                  placeholder="Your password"
-                />
-              </div>
-              
-              <div className="flex justify-end gap-3">
-                <button
-                  type="button"
-                  onClick={() => setShowDeleteModal(false)}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                  disabled={deleteLoading}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={deleteLoading}
-                  className="px-4 py-2 text-sm font-medium bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors disabled:opacity-50"
-                >
-                  {deleteLoading ? 'Deleting...' : 'Permanently Delete'}
-                </button>
-              </div>
-            </form>
-          </div>
+          <button
+            onClick={handleDeleteAccount}
+            disabled={deleteLoading}
+            className="w-full sm:w-auto px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors disabled:opacity-50"
+          >
+            {deleteLoading ? "Deleting..." : "Delete Account"}
+          </button>
         </div>
-      )}
+      </div>
     </div>
   );
 }

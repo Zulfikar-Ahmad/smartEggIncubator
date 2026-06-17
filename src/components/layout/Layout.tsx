@@ -146,7 +146,7 @@ export function Layout() {
 
   return (
     <AuthRoute>
-      <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-100 overflow-hidden relative">
+      <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-100 overflow-hidden relative transition-colors">
         {/* Mobile Overlay */}
         {mobileMenuOpen && (
           <div
@@ -176,8 +176,8 @@ export function Layout() {
 
         {/* Profile Completion Modal */}
         {showProfileModal && (
-          <div className="fixed inset-0 bg-black/50 dark:bg-black/80 backdrop-blur-sm z-100 flex items-center justify-center p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 w-full max-w-md shadow-2xl overflow-hidden relative animate-in fade-in zoom-in duration-300">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-100 flex items-center justify-center p-4">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 w-full max-w-md shadow-2xl overflow-hidden relative animate-in fade-in zoom-in duration-300 transition-colors">
               <button
                 onClick={handleDismissModal}
                 className="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
@@ -190,10 +190,10 @@ export function Layout() {
                   <div className="w-12 h-12 bg-blue-600/20 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
                     <UserIcon className="w-6 h-6" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 transition-colors">
                     Complete Your Profile
                   </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 transition-colors">
                     Welcome! We noticed you don't have a username yet. Please
                     set up your profile to enable username login.
                   </p>
@@ -209,7 +209,7 @@ export function Layout() {
                 <form onSubmit={handleProfileSubmit} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 transition-colors">
                         First Name <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -217,12 +217,12 @@ export function Layout() {
                         required
                         value={profFirstName}
                         onChange={(e) => setProfFirstName(e.target.value)}
-                        className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
+                        className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
                         placeholder="John"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 transition-colors">
                         Last Name <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -230,14 +230,14 @@ export function Layout() {
                         required
                         value={profLastName}
                         onChange={(e) => setProfLastName(e.target.value)}
-                        className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
+                        className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
                         placeholder="Doe"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 transition-colors">
                       Username <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -247,7 +247,7 @@ export function Layout() {
                       onChange={(e) =>
                         setProfUsername(e.target.value.toLowerCase())
                       }
-                      className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
+                      className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors"
                       placeholder="johndoe"
                     />
                     <p className="text-xs text-gray-500 mt-1.5">
@@ -266,7 +266,7 @@ export function Layout() {
                     <button
                       type="button"
                       onClick={handleDismissModal}
-                      className="w-full mt-2 bg-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium py-2 rounded-lg transition-colors text-sm"
+                      className="w-full mt-2 bg-transparent text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium py-2 rounded-lg transition-colors text-sm"
                     >
                       I'll do this later
                     </button>

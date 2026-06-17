@@ -6,6 +6,8 @@
 
 @layer base {
   body {
+    background-color: var(--color-gray-900);
+    color: var(--color-white);
     min-height: 100vh;
     font-family: var(--font-sans);
   }

@@ -137,14 +137,14 @@ export function LiveCam() {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">Live video stream and remote controls</p>
+          <p className="text-gray-600 dark:text-gray-400 mt-1 transition-colors">Live video stream and remote controls</p>
         </div>
-        <div className="flex items-center gap-3 bg-white dark:bg-gray-800 px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700">
+        <div className="flex items-center gap-3 bg-white dark:bg-gray-800 px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 transition-colors">
           <div className="relative flex h-3 w-3">
             <span className={`absolute inline-flex h-full w-full rounded-full opacity-75 ${isOnline ? 'bg-green-400 animate-ping' : 'bg-red-400'}`}></span>
             <span className={`relative inline-flex rounded-full h-3 w-3 ${isOnline ? 'bg-green-500' : 'bg-red-500'}`}></span>
           </div>
-          <span className={`font-semibold tracking-wide ${isOnline ? 'text-green-600 dark:text-green-400' : isOnline === null ? 'text-yellow-600 dark:text-yellow-400' : 'text-gray-500 dark:text-gray-400'}`}>
+          <span className={`font-semibold tracking-wide ${isOnline ? 'text-green-400' : isOnline === null ? 'text-yellow-400' : 'text-gray-400'}`}>
             {isOnline === null ? 'CONNECTING...' : isOnline ? 'ONLINE' : 'OFFLINE'}
           </span>
         </div>
@@ -154,7 +154,7 @@ export function LiveCam() {
         <div className="lg:col-span-3 space-y-6">
           <div 
             ref={containerRef}
-            className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-sm dark:shadow-2xl relative group min-h-[300px] md:min-h-[500px] flex items-center justify-center bg-stripes bg-stripes-gray-200 dark:bg-stripes-gray-700"
+            className="bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-2xl relative group min-h-[300px] md:min-h-[500px] flex items-center justify-center bg-stripes bg-stripes-gray-200 dark:bg-stripes-gray-700 transition-colors"
           >
             {frameUrl && isStreaming ? (
               <img 
@@ -163,7 +163,7 @@ export function LiveCam() {
                 className={`w-full h-full object-contain ${isFullscreen ? 'max-h-screen' : 'max-h-[70vh]'}`}
               />
             ) : (
-              <div className="flex flex-col items-center justify-center text-gray-500">
+              <div className="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 transition-colors">
                 <Camera className="w-16 h-16 mb-4 opacity-50" />
                 <p className="text-lg font-medium">{isOnline ? 'Click Start Stream to begin' : 'Camera is offline'}</p>
               </div>
@@ -189,8 +189,8 @@ export function LiveCam() {
         </div>
 
         <div className="space-y-6">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-5 border border-gray-200 dark:border-gray-700 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-5 border border-gray-200 dark:border-gray-700 shadow-sm transition-colors">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2 transition-colors">
               <Settings className="w-5 h-5 text-gray-500 dark:text-gray-400" />
               Camera Controls
             </h3>
@@ -201,7 +201,7 @@ export function LiveCam() {
                 disabled={!isOnline}
                 className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-semibold transition-all ${
                   !isOnline ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed' :
-                  isStreaming ? 'bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-500 hover:bg-red-100 dark:hover:bg-red-500/20 border border-red-200 dark:border-red-500/50' : 
+                  isStreaming ? 'bg-red-500/10 text-red-500 hover:bg-red-500/20 border border-red-500/50' : 
                   'bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/20'
                 }`}
               >
@@ -214,7 +214,7 @@ export function LiveCam() {
                 disabled={!isOnline}
                 className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-medium transition-all border ${
                   !isOnline ? 'bg-gray-100 dark:bg-gray-700 border-gray-200 dark:border-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed' :
-                  isFlashOn ? 'bg-yellow-50 dark:bg-yellow-500/20 border-yellow-200 dark:border-yellow-500/50 text-yellow-600 dark:text-yellow-500 hover:bg-yellow-100 dark:hover:bg-yellow-500/30' : 
+                  isFlashOn ? 'bg-yellow-500/20 border-yellow-500/50 text-yellow-600 dark:text-yellow-500 hover:bg-yellow-500/30' : 
                   'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-600'
                 }`}
               >
@@ -235,13 +235,13 @@ export function LiveCam() {
               </button>
             </div>
             
-            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">Resolution</label>
+            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 transition-colors">
+              <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2 transition-colors">Resolution</label>
               <select 
                 value={resolution}
                 onChange={changeResolution}
                 disabled={!isOnline}
-                className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2.5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors disabled:opacity-50"
+                className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2.5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors disabled:opacity-50"
               >
                 <option value="9">SVGA (800x600)</option>
                 <option value="8">VGA (640x480)</option>

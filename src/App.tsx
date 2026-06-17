@@ -1,8 +1,8 @@
 import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
-import { ThemeProvider } from './lib/ThemeProvider';
 import { Egg } from 'lucide-react';
+import { ThemeProvider } from './lib/ThemeProvider';
 
 const Dashboard = lazy(() => import('./pages/Dashboard').then(m => ({ default: m.Dashboard })));
 const LiveCam = lazy(() => import('./pages/LiveCam').then(m => ({ default: m.LiveCam })));
@@ -13,7 +13,7 @@ const History = lazy(() => import('./pages/History').then(m => ({ default: m.His
 
 function FullScreenLoader() {
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center transition-colors">
       <div className="flex flex-col items-center gap-6">
         <div className="relative">
           <div className="absolute inset-0 bg-blue-500 rounded-2xl blur-xl opacity-40 animate-pulse"></div>
@@ -36,25 +36,23 @@ function FullScreenLoader() {
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="system" storageKey="smart-egg-theme">
+    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
       <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={
-            <Suspense fallback={<FullScreenLoader />}>
-              <Login />
-            </Suspense>
-          } />
-          
-          <Route element={<Layout />}>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/livecam" element={<LiveCam />} />
-            <Route path="/users" element={<UserManagement />} />
-            <Route path="/history" element={<History />} />
-            <Route path="/status" element={<SystemStatus />} />
-          </Route>
+        <Suspense fallback={<FullScreenLoader />}>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="livecam" element={<LiveCam />} />
+              <Route path="users" element={<UserManagement />} />
+              <Route path="history" element={<History />} />
+              <Route path="status" element={<SystemStatus />} />
+            </Route>
 
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </ThemeProvider>
   );
