@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.5.0] - Light Theme & Data Management
+### Added
+- Comprehensive Light & Dark mode support with a theme toggle in the top navigation.
+- "Clear History" button to permanently delete history data.
+- "Delete Account" section in User Management to remove user account and data.
+
+## [v1.4.0] - UI Refinements & Bug Fixes
+### Fixed
+- Fixed Changelog modal clipping issue by implementing React portal.
+### Changed
+- Moved version text to the sidebar header under the title.
+
 ## [v1.3.1] - Stability Patches
 ### Fixed
 - Fixed bug where camera status was stuck on "CONNECTING..." due to MQTT retained message drops. LiveCam now sets a 3-second timeout.
