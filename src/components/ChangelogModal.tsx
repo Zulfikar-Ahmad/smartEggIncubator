@@ -174,10 +174,10 @@ export function ChangelogModal({ onClose }: ChangelogModalProps) {
             {CHANGELOG_DATA.map((release) => (
               <div
                 key={release.version}
-                className="relative pl-4 border-l-2 border-gray-200 dark:border-gray-700 transition-colors"
+                className="relative pl-6 border-l-2 border-gray-200 dark:border-gray-700 transition-colors pb-4"
               >
                 {/* Timeline Dot */}
-                <div className="absolute left-[9px] top-1.5 w-4 h-4 rounded-full bg-blue-500 border-4 border-white dark:border-gray-800 transition-colors" />
+                <div className="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blue-500 border-4 border-white dark:border-gray-800 transition-colors" />
 
                 <div className="mb-4">
                   <div className="flex items-center gap-3">
