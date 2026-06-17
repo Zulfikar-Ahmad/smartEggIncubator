@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth, db } from "../../lib/firebase";
 import { ref, onValue } from "firebase/database";
-import { User, LogOut, Menu, Sun, Moon, Monitor } from "lucide-react";
+import { User, LogOut, Menu, Sun, Moon, Laptop } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTheme } from "../../lib/ThemeProvider";
 
@@ -64,62 +64,63 @@ export function TopNav({ onToggleMenu }: TopNavProps) {
   };
 
   return (
-    <header className="h-20 border-b border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 backdrop-blur-xl sticky top-0 z-40 flex items-center justify-between px-4 lg:px-10 w-full transition-colors duration-300">
+    <header className="h-20 border-b border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800/50 backdrop-blur-xl sticky top-0 z-40 flex items-center justify-between px-4 lg:px-10 w-full transition-all duration-300">
       <div className="flex items-center gap-4">
         <button
           onClick={onToggleMenu}
-          className="p-2 -ml-2 lg:hidden text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+          className="p-2 -ml-2 lg:hidden text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
         >
           <Menu className="w-6 h-6" />
         </button>
         <h1 className="text-xl font-bold text-gray-900 dark:text-white">{pageTitle}</h1>
       </div>
 
-      <div className="flex items-center gap-3 sm:gap-4">
+      <div className="flex items-center gap-2 sm:gap-4">
         {/* Theme Toggle */}
         <div className="relative">
           <button
-            onClick={() => setThemeDropdownOpen(!themeDropdownOpen)}
-            className="p-2 sm:p-2.5 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors border border-gray-200 dark:border-gray-600/50 flex items-center justify-center"
-            title="Toggle theme"
+            onClick={() => {
+              setThemeDropdownOpen(!themeDropdownOpen);
+              setDropdownOpen(false);
+            }}
+            className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700/50 rounded-xl transition-all duration-200 border border-transparent hover:border-gray-200 dark:hover:border-gray-600/50"
+            title="Theme Settings"
           >
-            {theme === "light" ? (
-              <Sun className="w-5 h-5" />
-            ) : theme === "dark" ? (
-              <Moon className="w-5 h-5" />
-            ) : (
-              <Monitor className="w-5 h-5" />
-            )}
+            {theme === 'light' ? <Sun className="w-5 h-5" /> : theme === 'dark' ? <Moon className="w-5 h-5" /> : <Laptop className="w-5 h-5" />}
           </button>
 
           {themeDropdownOpen && (
             <div className="absolute right-0 mt-2 w-36 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl py-1 z-50">
               <button
-                onClick={() => { setTheme("light"); setThemeDropdownOpen(false); }}
-                className={`w-full text-left px-4 py-2 text-sm flex items-center gap-2 ${theme === "light" ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20" : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"}`}
+                onClick={() => { setTheme('system'); setThemeDropdownOpen(false); }}
+                className={`w-full text-left px-4 py-2 text-sm flex items-center gap-2 ${theme === 'system' ? 'text-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+              >
+                <Laptop className="w-4 h-4" /> System
+              </button>
+              <button
+                onClick={() => { setTheme('light'); setThemeDropdownOpen(false); }}
+                className={`w-full text-left px-4 py-2 text-sm flex items-center gap-2 ${theme === 'light' ? 'text-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
               >
                 <Sun className="w-4 h-4" /> Light
               </button>
               <button
-                onClick={() => { setTheme("dark"); setThemeDropdownOpen(false); }}
-                className={`w-full text-left px-4 py-2 text-sm flex items-center gap-2 ${theme === "dark" ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20" : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"}`}
+                onClick={() => { setTheme('dark'); setThemeDropdownOpen(false); }}
+                className={`w-full text-left px-4 py-2 text-sm flex items-center gap-2 ${theme === 'dark' ? 'text-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
               >
                 <Moon className="w-4 h-4" /> Dark
-              </button>
-              <button
-                onClick={() => { setTheme("system"); setThemeDropdownOpen(false); }}
-                className={`w-full text-left px-4 py-2 text-sm flex items-center gap-2 ${theme === "system" ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20" : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"}`}
-              >
-                <Monitor className="w-4 h-4" /> System
               </button>
             </div>
           )}
         </div>
 
-        {/* User Profile */}
+        <div className="h-8 w-px bg-gray-200 dark:bg-gray-700 hidden sm:block"></div>
+
         <div className="relative">
           <button
-            onClick={() => setDropdownOpen(!dropdownOpen)}
+            onClick={() => {
+              setDropdownOpen(!dropdownOpen);
+              setThemeDropdownOpen(false);
+            }}
             className="flex items-center gap-3 p-1.5 sm:pr-4 bg-white dark:bg-gray-700/50 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-xl transition-all duration-200 border border-gray-200 dark:border-gray-600/50"
           >
             <div className="w-9 h-9 bg-linear-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-inner">
@@ -132,7 +133,7 @@ export function TopNav({ onToggleMenu }: TopNavProps) {
               >
                 Hello, {firstName ? firstName : "User"}!
               </div>
-              <div className="text-xs text-blue-600 dark:text-blue-400 font-medium">
+              <div className="text-xs text-blue-400 font-medium">
                 Administrator
               </div>
             </div>

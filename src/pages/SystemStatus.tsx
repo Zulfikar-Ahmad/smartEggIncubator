@@ -36,7 +36,7 @@ export function SystemStatus() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            <tr>
+            <tr className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
               <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-gray-900 dark:text-white flex items-center gap-2 sm:gap-3">
                 <Thermometer className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                 SHT31 Sensor
@@ -49,7 +49,7 @@ export function SystemStatus() {
                 )}
               </td>
             </tr>
-            <tr>
+            <tr className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
               <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-gray-900 dark:text-white flex items-center gap-2 sm:gap-3">
                 <DoorClosed className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                 Door Status
@@ -62,29 +62,29 @@ export function SystemStatus() {
                 )}
               </td>
             </tr>
-            <tr>
+            <tr className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
               <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-gray-900 dark:text-white flex items-center gap-2 sm:gap-3">
                 <Lightbulb className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                 Light Bulb
               </td>
               <td className="px-4 sm:px-6 py-3 sm:py-4">
                 {data?.led ? (
-                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-500/10 text-yellow-600 dark:text-yellow-500">On</span>
+                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-500">On</span>
                 ) : (
-                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-500/10 text-gray-600 dark:text-gray-400">Off</span>
+                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-500/10 text-gray-500 dark:text-gray-400">Off</span>
                 )}
               </td>
             </tr>
-            <tr>
+            <tr className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
               <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-gray-900 dark:text-white flex items-center gap-2 sm:gap-3">
                 <Flame className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                 Heater Status
               </td>
               <td className="px-4 sm:px-6 py-3 sm:py-4">
                 {data?.heaterState ? (
-                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 dark:bg-orange-500/10 text-orange-600 dark:text-orange-500">Heating</span>
+                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-500/10 text-orange-500">Heating</span>
                 ) : (
-                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-500/10 text-gray-600 dark:text-gray-400">Off</span>
+                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-500/10 text-gray-500 dark:text-gray-400">Off</span>
                 )}
               </td>
             </tr>

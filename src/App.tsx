@@ -13,7 +13,7 @@ const History = lazy(() => import('./pages/History').then(m => ({ default: m.His
 
 function FullScreenLoader() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center transition-colors">
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center">
       <div className="flex flex-col items-center gap-6">
         <div className="relative">
           <div className="absolute inset-0 bg-blue-500 rounded-2xl blur-xl opacity-40 animate-pulse"></div>
@@ -36,7 +36,7 @@ function FullScreenLoader() {
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="system" storageKey="sei-theme">
+    <ThemeProvider defaultTheme="system" storageKey="smart-egg-theme">
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={

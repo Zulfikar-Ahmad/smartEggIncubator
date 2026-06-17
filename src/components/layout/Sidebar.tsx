@@ -75,7 +75,7 @@ export function Sidebar({ onClose }: SidebarProps) {
             <Egg className="w-6 h-6 text-white" />
           </div>
           <div className="flex flex-col whitespace-nowrap overflow-hidden transition-all duration-300 lg:max-w-0 lg:opacity-0 group-hover/sidebar:lg:max-w-[200px] group-hover/sidebar:lg:opacity-100">
-            <h1 className="text-lg font-bold text-gray-900 dark:text-white bg-linear-to-r dark:from-white dark:to-gray-400 bg-clip-text leading-tight">
+            <h1 className="text-lg font-bold text-gray-900 dark:text-white bg-linear-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text leading-tight">
               Smart Egg
             </h1>
             <p className="text-sm font-medium text-gray-500 dark:text-gray-400 leading-tight tracking-wide">
@@ -83,7 +83,7 @@ export function Sidebar({ onClose }: SidebarProps) {
             </p>
             <button
               onClick={() => setShowChangelog(true)}
-              className="text-xs font-mono text-gray-500 hover:text-blue-400 transition-colors text-left"
+              className="text-xs font-mono text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors text-left"
               title="View Release Notes"
             >
               v1.5.0
@@ -109,7 +109,7 @@ export function Sidebar({ onClose }: SidebarProps) {
               `w-full flex items-center justify-start gap-3 px-3 lg:px-4 py-3 rounded-xl transition-all duration-200 group ${
                 isActive
                   ? "bg-blue-50 dark:bg-blue-600/10 text-blue-600 dark:text-blue-400 font-medium"
-                  : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 hover:text-gray-900 dark:hover:text-white"
+                  : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 hover:text-gray-900 dark:hover:text-white"
               }`
             }
             title={item.name}

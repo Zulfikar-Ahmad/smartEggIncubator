@@ -258,9 +258,9 @@ export function Dashboard() {
             <div className="flex justify-between items-center">
               <span className="text-gray-500 dark:text-gray-400">Signal:</span>
               <div className="flex items-center gap-2">
-                <div className="w-24 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                <div className="w-24 h-2 bg-gray-700 rounded-full overflow-hidden">
                   <div
-                    className={`h-full ${isConnected ? "bg-green-500" : "bg-gray-300 dark:bg-gray-700"}`}
+                    className={`h-full ${isConnected ? "bg-green-500" : "bg-gray-700"}`}
                     style={{ width: `${isConnected ? data?.signalStrength || 0 : 0}%` }}
                   ></div>
                 </div>
@@ -298,7 +298,7 @@ export function Dashboard() {
             <div className="p-3 rounded-lg bg-green-500/10 text-green-500">
               <Droplets className="w-6 h-6" />
             </div>
-            <div className="text-base font-bold text-gray-400 dark:text-gray-500">→</div>
+            <div className="text-base font-bold text-gray-500 dark:text-gray-400">→</div>
           </div>
           <div className="space-y-1">
             <p className="text-sm text-gray-500 dark:text-gray-400">Humidity</p>
@@ -433,13 +433,13 @@ export function Dashboard() {
             <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
               <div className="flex items-center gap-3">
                 <Zap
-                  className={`w-5 h-5 ${flashOn ? "text-blue-500 dark:text-blue-400" : "text-gray-400 dark:text-gray-500"}`}
+                  className={`w-5 h-5 ${flashOn ? "text-blue-400" : "text-gray-500"}`}
                 />
                 <span className="text-sm text-gray-900 dark:text-white">Camera Flash</span>
               </div>
               <button
                 onClick={toggleFlash}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${flashOn ? "bg-blue-600" : "bg-gray-300 dark:bg-gray-600"}`}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${flashOn ? "bg-blue-600" : "bg-gray-600"}`}
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${flashOn ? "translate-x-6" : "translate-x-1"}`}
@@ -450,13 +450,13 @@ export function Dashboard() {
             <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
               <div className="flex items-center gap-3">
                 <Flame
-                  className={`w-5 h-5 ${heaterOn ? "text-blue-500 dark:text-blue-400" : "text-gray-400 dark:text-gray-500"}`}
+                  className={`w-5 h-5 ${heaterOn ? "text-blue-400" : "text-gray-500"}`}
                 />
                 <span className="text-sm text-gray-900 dark:text-white">Heater (Auto)</span>
               </div>
               <button
                 onClick={toggleHeater}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${heaterOn ? "bg-blue-600" : "bg-gray-300 dark:bg-gray-600"}`}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${heaterOn ? "bg-blue-600" : "bg-gray-600"}`}
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${heaterOn ? "translate-x-6" : "translate-x-1"}`}
@@ -478,7 +478,7 @@ export function Dashboard() {
               value={motorInterval}
               onChange={(e) => setMotorInterval(e.target.value)}
               min="1"
-              className="flex-1 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors"
+              className="flex-1 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
               placeholder="Interval (min)"
             />
             <button

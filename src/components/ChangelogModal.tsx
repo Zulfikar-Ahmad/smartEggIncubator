@@ -7,21 +7,40 @@ interface ChangelogModalProps {
 
 const CHANGELOG_DATA = [
   {
-    version: "v1.3.2",
-    title: "Light & Dark Mode, Account Management",
+    version: "v1.5.0",
+    title: "Light Theme & User Data Management",
     date: "June 2026",
     changes: [
       {
         type: "Added",
-        text: "System/Light/Dark mode theme toggle.",
+        text: "Global Light/Dark theme toggle with user preference persistence.",
       },
       {
         type: "Added",
-        text: "Clear History feature on the History page.",
+        text: "Clear History feature to permanently delete all historical data.",
       },
       {
         type: "Added",
-        text: "Delete Account feature on the User Management page.",
+        text: "Delete Account feature for complete data removal.",
+      },
+    ],
+  },
+  {
+    version: "v1.4.0",
+    title: "Global Theming Architecture",
+    date: "June 2026",
+    changes: [
+      {
+        type: "Added",
+        text: "ThemeProvider Context to handle theme state across the application.",
+      },
+      {
+        type: "Added",
+        text: "Version indicator moved to the sidebar title container.",
+      },
+      {
+        type: "Fixed",
+        text: "Changelog modal rendering issues by implementing React Portals.",
       },
     ],
   },
@@ -136,9 +155,9 @@ const CHANGELOG_DATA = [
 export function ChangelogModal({ onClose }: ChangelogModalProps) {
   return createPortal(
     <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 w-full max-w-2xl overflow-hidden flex flex-col max-h-[85vh] transition-colors">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 w-full max-w-2xl overflow-hidden flex flex-col max-h-[85vh]">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center bg-gray-50/80 dark:bg-gray-800/80 sticky top-0 z-10 transition-colors">
+        <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center bg-white/80 dark:bg-gray-800/80 sticky top-0 z-10">
           <div>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white">Release Notes</h2>
             <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -154,7 +173,7 @@ export function ChangelogModal({ onClose }: ChangelogModalProps) {
         </div>
 
         {/* Content */}
-        <div className="px-6 py-4 overflow-y-auto custom-scrollbar flex-1 bg-white dark:bg-gray-800 transition-colors">
+        <div className="px-6 py-4 overflow-y-auto custom-scrollbar flex-1">
           <div className="space-y-8">
             {CHANGELOG_DATA.map((release) => (
               <div
@@ -162,14 +181,14 @@ export function ChangelogModal({ onClose }: ChangelogModalProps) {
                 className="relative pl-4 border-l-2 border-gray-200 dark:border-gray-700"
               >
                 {/* Timeline Dot */}
-                <div className="absolute left-[9px] top-1.5 w-4 h-4 rounded-full bg-blue-500 border-4 border-white dark:border-gray-800 transition-colors" />
+                <div className="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blue-500 border-4 border-white dark:border-gray-800" />
 
                 <div className="mb-4">
                   <div className="flex items-center gap-3">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white">
                       {release.version}
                     </h3>
-                    <span className="text-xs font-medium px-2 py-0.5 rounded bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 transition-colors">
+                    <span className="text-xs font-medium px-2 py-0.5 rounded bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
                       {release.date}
                     </span>
                   </div>
@@ -185,10 +204,10 @@ export function ChangelogModal({ onClose }: ChangelogModalProps) {
                       <span
                         className={`px-2 py-0.5 rounded text-xs font-semibold mt-0.5 ${
                           change.type === "Added"
-                            ? "bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400"
+                            ? "bg-green-50 dark:bg-green-500/20 text-green-600 dark:text-green-400"
                             : change.type === "Fixed"
-                              ? "bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400"
-                              : "bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400"
+                              ? "bg-orange-50 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400"
+                              : "bg-blue-50 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400"
                         }`}
                       >
                         {change.type}

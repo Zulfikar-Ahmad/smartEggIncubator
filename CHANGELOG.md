@@ -2,11 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v1.3.2] - Light & Dark Mode, Account Management
+## [v1.5.0] - Light Theme & User Data Management
 ### Added
-- System/Light/Dark mode theme toggle.
-- Clear History feature on the History page.
-- Delete Account feature on the User Management page.
+- Global Light/Dark theme toggle with user preference persistence.
+- Clear History feature to permanently delete all historical data.
+- Delete Account feature for complete data removal.
+
+## [v1.4.0] - Global Theming Architecture
+### Added
+- ThemeProvider Context to handle theme state across the application.
+- Version indicator moved to the sidebar title container.
+
+### Fixed
+- Changelog modal rendering issues by implementing React Portals.
 
 ## [v1.3.1] - Stability Patches
 ### Fixed

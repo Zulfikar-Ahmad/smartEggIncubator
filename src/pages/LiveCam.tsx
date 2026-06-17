@@ -144,7 +144,7 @@ export function LiveCam() {
             <span className={`absolute inline-flex h-full w-full rounded-full opacity-75 ${isOnline ? 'bg-green-400 animate-ping' : 'bg-red-400'}`}></span>
             <span className={`relative inline-flex rounded-full h-3 w-3 ${isOnline ? 'bg-green-500' : 'bg-red-500'}`}></span>
           </div>
-          <span className={`font-semibold tracking-wide ${isOnline ? 'text-green-500 dark:text-green-400' : isOnline === null ? 'text-yellow-500 dark:text-yellow-400' : 'text-gray-500 dark:text-gray-400'}`}>
+          <span className={`font-semibold tracking-wide ${isOnline ? 'text-green-600 dark:text-green-400' : isOnline === null ? 'text-yellow-600 dark:text-yellow-400' : 'text-gray-500 dark:text-gray-400'}`}>
             {isOnline === null ? 'CONNECTING...' : isOnline ? 'ONLINE' : 'OFFLINE'}
           </span>
         </div>
@@ -154,7 +154,7 @@ export function LiveCam() {
         <div className="lg:col-span-3 space-y-6">
           <div 
             ref={containerRef}
-            className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-2xl relative group min-h-[300px] md:min-h-[500px] flex items-center justify-center bg-stripes bg-stripes-gray-200 dark:bg-stripes-gray-700"
+            className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-sm dark:shadow-2xl relative group min-h-[300px] md:min-h-[500px] flex items-center justify-center bg-stripes bg-stripes-gray-200 dark:bg-stripes-gray-700"
           >
             {frameUrl && isStreaming ? (
               <img 
@@ -163,9 +163,9 @@ export function LiveCam() {
                 className={`w-full h-full object-contain ${isFullscreen ? 'max-h-screen' : 'max-h-[70vh]'}`}
               />
             ) : (
-              <div className="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500">
+              <div className="flex flex-col items-center justify-center text-gray-500">
                 <Camera className="w-16 h-16 mb-4 opacity-50" />
-                <p className="text-lg font-medium text-gray-500 dark:text-gray-400">{isOnline ? 'Click Start Stream to begin' : 'Camera is offline'}</p>
+                <p className="text-lg font-medium">{isOnline ? 'Click Start Stream to begin' : 'Camera is offline'}</p>
               </div>
             )}
 
@@ -241,7 +241,7 @@ export function LiveCam() {
                 value={resolution}
                 onChange={changeResolution}
                 disabled={!isOnline}
-                className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2.5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors disabled:opacity-50"
+                className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2.5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors disabled:opacity-50"
               >
                 <option value="9">SVGA (800x600)</option>
                 <option value="8">VGA (640x480)</option>

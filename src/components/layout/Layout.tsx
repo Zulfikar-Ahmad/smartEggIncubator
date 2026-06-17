@@ -146,7 +146,7 @@ export function Layout() {
 
   return (
     <AuthRoute>
-      <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-100 overflow-hidden relative transition-colors duration-300">
+      <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-100 overflow-hidden relative">
         {/* Mobile Overlay */}
         {mobileMenuOpen && (
           <div
@@ -176,11 +176,11 @@ export function Layout() {
 
         {/* Profile Completion Modal */}
         {showProfileModal && (
-          <div className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/50 dark:bg-black/80 backdrop-blur-sm z-100 flex items-center justify-center p-4">
             <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 w-full max-w-md shadow-2xl overflow-hidden relative animate-in fade-in zoom-in duration-300">
               <button
                 onClick={handleDismissModal}
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                className="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -193,7 +193,7 @@ export function Layout() {
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                     Complete Your Profile
                   </h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     Welcome! We noticed you don't have a username yet. Please
                     set up your profile to enable username login.
                   </p>
@@ -217,7 +217,7 @@ export function Layout() {
                         required
                         value={profFirstName}
                         onChange={(e) => setProfFirstName(e.target.value)}
-                        className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors"
+                        className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
                         placeholder="John"
                       />
                     </div>
@@ -230,7 +230,7 @@ export function Layout() {
                         required
                         value={profLastName}
                         onChange={(e) => setProfLastName(e.target.value)}
-                        className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors"
+                        className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
                         placeholder="Doe"
                       />
                     </div>
@@ -247,7 +247,7 @@ export function Layout() {
                       onChange={(e) =>
                         setProfUsername(e.target.value.toLowerCase())
                       }
-                      className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-colors"
+                      className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
                       placeholder="johndoe"
                     />
                     <p className="text-xs text-gray-500 mt-1.5">
@@ -266,7 +266,7 @@ export function Layout() {
                     <button
                       type="button"
                       onClick={handleDismissModal}
-                      className="w-full mt-2 bg-transparent text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium py-2 rounded-lg transition-colors text-sm"
+                      className="w-full mt-2 bg-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium py-2 rounded-lg transition-colors text-sm"
                     >
                       I'll do this later
                     </button>
