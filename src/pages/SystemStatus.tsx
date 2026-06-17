@@ -27,18 +27,18 @@ export function SystemStatus() {
 
   return (
     <div className="space-y-6 max-w-4xl">
-      <div className="bg-gray-800 rounded-lg shadow-sm border border-gray-700 overflow-hidden overflow-x-auto">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden overflow-x-auto">
         <table className="w-full text-left min-w-[300px]">
-          <thead className="bg-gray-900/50 border-b border-gray-700">
+          <thead className="bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-700">
             <tr>
-              <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-400">Component</th>
-              <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-400">Status</th>
+              <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">Component</th>
+              <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">Status</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-700">
+          <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
             <tr>
-              <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-white flex items-center gap-2 sm:gap-3">
-                <Thermometer className="w-5 h-5 text-gray-400" />
+              <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-gray-900 dark:text-white flex items-center gap-2 sm:gap-3">
+                <Thermometer className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                 SHT31 Sensor
               </td>
               <td className="px-4 sm:px-6 py-3 sm:py-4">
@@ -50,8 +50,8 @@ export function SystemStatus() {
               </td>
             </tr>
             <tr>
-              <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-white flex items-center gap-2 sm:gap-3">
-                <DoorClosed className="w-5 h-5 text-gray-400" />
+              <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-gray-900 dark:text-white flex items-center gap-2 sm:gap-3">
+                <DoorClosed className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                 Door Status
               </td>
               <td className="px-4 sm:px-6 py-3 sm:py-4">
@@ -63,28 +63,28 @@ export function SystemStatus() {
               </td>
             </tr>
             <tr>
-              <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-white flex items-center gap-2 sm:gap-3">
-                <Lightbulb className="w-5 h-5 text-gray-400" />
+              <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-gray-900 dark:text-white flex items-center gap-2 sm:gap-3">
+                <Lightbulb className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                 Light Bulb
               </td>
               <td className="px-4 sm:px-6 py-3 sm:py-4">
                 {data?.led ? (
-                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-500">On</span>
+                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-500/10 text-yellow-600 dark:text-yellow-500">On</span>
                 ) : (
-                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-500/10 text-gray-400">Off</span>
+                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-500/10 text-gray-600 dark:text-gray-400">Off</span>
                 )}
               </td>
             </tr>
             <tr>
-              <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-white flex items-center gap-2 sm:gap-3">
-                <Flame className="w-5 h-5 text-gray-400" />
+              <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-gray-900 dark:text-white flex items-center gap-2 sm:gap-3">
+                <Flame className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                 Heater Status
               </td>
               <td className="px-4 sm:px-6 py-3 sm:py-4">
                 {data?.heaterState ? (
-                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-500/10 text-orange-500">Heating</span>
+                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 dark:bg-orange-500/10 text-orange-600 dark:text-orange-500">Heating</span>
                 ) : (
-                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-500/10 text-gray-400">Off</span>
+                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-500/10 text-gray-600 dark:text-gray-400">Off</span>
                 )}
               </td>
             </tr>

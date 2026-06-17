@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ref, onValue, query, orderByKey, limitToLast } from 'firebase/database';
+import { ref, onValue, query, orderByKey, limitToLast, remove } from 'firebase/database';
 import { db } from '../lib/firebase';
 
 interface HistoryRecord {
@@ -38,27 +38,47 @@ export function History() {
     return () => unsubscribe();
   }, []);
 
+  const handleClearHistory = async () => {
+    if (window.confirm("Are you sure you want to clear all history? This cannot be undone.")) {
+      try {
+        await remove(ref(db, 'incubator/history'));
+      } catch (err) {
+        console.error("Error clearing history: ", err);
+        alert("Failed to clear history.");
+      }
+    }
+  };
+
   return (
     <div className="space-y-6">
-      <div className="bg-gray-800 rounded-lg shadow-sm border border-gray-700 overflow-hidden">
+      <div className="flex justify-end">
+        <button
+          onClick={handleClearHistory}
+          disabled={loading || history.length === 0}
+          className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors disabled:opacity-50"
+        >
+          Clear History
+        </button>
+      </div>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div className="overflow-x-auto">
           <table className={`w-full text-left ${history.length > 0 ? 'min-w-[500px]' : ''}`}>
-          <thead className="bg-gray-900/50 border-b border-gray-700">
+          <thead className="bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-700">
             <tr>
-              <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-400">Time</th>
-              <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-400">Temperature (°C)</th>
-              <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-400">Humidity (%)</th>
+              <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">Time</th>
+              <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">Temperature (°C)</th>
+              <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">Humidity (%)</th>
             </tr>
           </thead>
           {history.length > 0 && (
-            <tbody className="divide-y divide-gray-700" id="historyTableBody">
+            <tbody className="divide-y divide-gray-200 dark:divide-gray-700" id="historyTableBody">
               {history.map((row) => (
-                <tr key={row.id} className="hover:bg-gray-700/30 transition-colors">
-                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-white">
+                <tr key={row.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-gray-900 dark:text-white">
                     {row.timestamp ? new Date(row.timestamp).toLocaleString() : '-'}
                   </td>
-                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-white">{row.temperature !== undefined && row.temperature !== null ? Number(row.temperature).toFixed(2) : '-'}</td>
-                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-white">{row.humidity !== undefined && row.humidity !== null ? Number(row.humidity).toFixed(2) : '-'}</td>
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-gray-900 dark:text-white">{row.temperature !== undefined && row.temperature !== null ? Number(row.temperature).toFixed(2) : '-'}</td>
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-gray-900 dark:text-white">{row.humidity !== undefined && row.humidity !== null ? Number(row.humidity).toFixed(2) : '-'}</td>
                 </tr>
               ))}
             </tbody>

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.2] - Light & Dark Mode, Account Management
+### Added
+- System/Light/Dark mode theme toggle.
+- Clear History feature on the History page.
+- Delete Account feature on the User Management page.
+
 ## [v1.3.1] - Stability Patches
 ### Fixed
 - Fixed bug where camera status was stuck on "CONNECTING..." due to MQTT retained message drops. LiveCam now sets a 3-second timeout.
