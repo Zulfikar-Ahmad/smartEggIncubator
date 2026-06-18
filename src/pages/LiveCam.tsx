@@ -7,26 +7,12 @@ import mqtt from 'mqtt';
 export function LiveCam() {
   const [isOnline, setIsOnline] = useState<boolean | null>(null);
   const [frameUrl, setFrameUrl] = useState<string | null>(null);
-  const [isStreaming, setIsStreaming] = useState(false);
   const [isFlashOn, setIsFlashOn] = useState(false);
   const [resolution, setResolution] = useState(5);
   const [isFullscreen, setIsFullscreen] = useState(false);
   
   const containerRef = useRef<HTMLDivElement>(null);
   const mqttClientRef = useRef<mqtt.MqttClient | null>(null);
-  const isStreamingRef = useRef(isStreaming);
-
-  useEffect(() => {
-    isStreamingRef.current = isStreaming;
-    const client = mqttClientRef.current;
-    if (client && client.connected) {
-      if (isStreaming) {
-        client.subscribe('smart-egg-incubator/cam/frame/7x9Qz2pL4mK8wR5v');
-      } else {
-        client.unsubscribe('smart-egg-incubator/cam/frame/7x9Qz2pL4mK8wR5v');
-      }
-    }
-  }, [isStreaming]);
 
   useEffect(() => {
     // Unconditional MQTT connection for LWT status and frames
@@ -38,9 +24,7 @@ export function LiveCam() {
     client.on('connect', () => {
       console.log('Connected to Mosquitto Public Broker');
       client.subscribe('smart-egg-incubator/cam/status');
-      if (isStreamingRef.current) {
-        client.subscribe('smart-egg-incubator/cam/frame/7x9Qz2pL4mK8wR5v');
-      }
+      client.subscribe('smart-egg-incubator/cam/frame/7x9Qz2pL4mK8wR5v');
 
       // If no status message is received within 3 seconds, assume offline
       // (Mosquitto public broker often drops retained messages)
@@ -71,7 +55,6 @@ export function LiveCam() {
     const unsubscribeControls = onValue(controlsRef, (snapshot) => {
       const controls = snapshot.val();
       if (controls) {
-        if (controls.stream_active !== undefined) setIsStreaming(controls.stream_active);
         if (controls.flash !== undefined) setIsFlashOn(controls.flash);
         if (controls.resolution !== undefined) setResolution(controls.resolution);
       }
@@ -88,18 +71,13 @@ export function LiveCam() {
     };
   }, []);
 
-  const toggleStream = () => {
-    set(ref(db, 'camera/controls/stream_active'), !isStreaming);
-    if (isStreaming) setFrameUrl(null); // Clear image when stopping
-  };
-
   const toggleFlash = () => {
     set(ref(db, 'camera/controls/flash'), !isFlashOn);
   };
 
   const handleCapture = () => {
     if (!frameUrl) {
-      alert("Please start the stream first to capture a photo!");
+      alert("No stream available to capture!");
       return;
     }
     
@@ -156,7 +134,7 @@ export function LiveCam() {
             ref={containerRef}
             className="bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-2xl relative group min-h-[300px] md:min-h-[500px] flex items-center justify-center bg-stripes bg-stripes-gray-200 dark:bg-stripes-gray-700 transition-colors"
           >
-            {frameUrl && isStreaming ? (
+            {frameUrl ? (
               <img 
                 src={frameUrl} 
                 alt="ESP32-CAM Stream" 
@@ -165,7 +143,7 @@ export function LiveCam() {
             ) : (
               <div className="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 transition-colors">
                 <Camera className="w-16 h-16 mb-4 opacity-50" />
-                <p className="text-lg font-medium">{isOnline ? 'Click Start Stream to begin' : 'Camera is offline'}</p>
+                <p className="text-lg font-medium">{isOnline ? 'Waiting for camera frame...' : 'Camera is offline'}</p>
               </div>
             )}
 
@@ -179,7 +157,7 @@ export function LiveCam() {
               </button>
             </div>
             
-            {isStreaming && (
+            {frameUrl && (
               <div className="absolute bottom-4 left-4 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
                 <span className="text-xs font-mono text-white tracking-wider">LIVE</span>
@@ -197,19 +175,6 @@ export function LiveCam() {
             
             <div className="space-y-3">
               <button 
-                onClick={toggleStream}
-                disabled={!isOnline}
-                className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-semibold transition-all ${
-                  !isOnline ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed' :
-                  isStreaming ? 'bg-red-500/10 text-red-500 hover:bg-red-500/20 border border-red-500/50' : 
-                  'bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/20'
-                }`}
-              >
-                <Power className="w-5 h-5" />
-                {isStreaming ? 'Stop Stream' : 'Start Stream'}
-              </button>
-
-              <button 
                 onClick={toggleFlash}
                 disabled={!isOnline}
                 className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-medium transition-all border ${
@@ -224,9 +189,9 @@ export function LiveCam() {
 
               <button 
                 onClick={handleCapture}
-                disabled={!isOnline || !isStreaming}
+                disabled={!isOnline || !frameUrl}
                 className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-medium transition-all border ${
-                  !isOnline || !isStreaming ? 'bg-gray-100 dark:bg-gray-700 border-gray-200 dark:border-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed' :
+                  !isOnline || !frameUrl ? 'bg-gray-100 dark:bg-gray-700 border-gray-200 dark:border-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed' :
                   'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-600 active:scale-95'
                 }`}
               >
