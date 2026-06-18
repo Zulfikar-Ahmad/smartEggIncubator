@@ -7,6 +7,17 @@ interface ChangelogModalProps {
 
 const CHANGELOG_DATA = [
   {
+    version: "v1.6.0",
+    title: "Always-On Camera Stream",
+    date: "June 2026",
+    changes: [
+      {
+        type: "Added",
+        text: "ESP32-CAM stream is now permanently active by default, ensuring instant camera access without manual toggling.",
+      },
+    ],
+  },
+  {
     version: "v1.5.0",
     title: "Light Theme & Data Management",
     date: "June 2026",

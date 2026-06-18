@@ -1,5 +1,7 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { ref, set } from 'firebase/database';
+import { db } from './lib/firebase';
 import { Layout } from './components/layout/Layout';
 import { Egg } from 'lucide-react';
 import { ThemeProvider } from './lib/ThemeProvider';
@@ -35,6 +37,11 @@ function FullScreenLoader() {
 }
 
 function App() {
+  useEffect(() => {
+    // Globally ensure the camera stream is permanently active on ESP32
+    set(ref(db, 'camera/controls/stream_active'), true);
+  }, []);
+
   return (
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
       <BrowserRouter>

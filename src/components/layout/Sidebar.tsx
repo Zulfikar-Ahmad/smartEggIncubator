@@ -86,7 +86,7 @@ export function Sidebar({ onClose }: SidebarProps) {
               className="text-xs font-mono text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-left"
               title="View Release Notes"
             >
-              v1.5.0
+              v1.6.0
             </button>
           </div>
         </div>
