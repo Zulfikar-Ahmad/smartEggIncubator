@@ -16,7 +16,6 @@ import { auth, db } from "../../lib/firebase";
 import { signOut } from "firebase/auth";
 import { ref, get, push, serverTimestamp } from "firebase/database";
 import { useState } from "react";
-import { ChangelogModal } from "../ChangelogModal";
 
 interface SidebarProps {
   onClose?: () => void;
@@ -25,7 +24,6 @@ interface SidebarProps {
 export function Sidebar({ onClose }: SidebarProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
-  const [showChangelog, setShowChangelog] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -81,13 +79,6 @@ export function Sidebar({ onClose }: SidebarProps) {
             <p className="text-sm font-medium text-gray-500 dark:text-gray-400 leading-tight tracking-wide transition-colors">
               Incubator
             </p>
-            <button
-              onClick={() => setShowChangelog(true)}
-              className="text-xs font-mono text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-left"
-              title="View Release Notes"
-            >
-              v1.6.0
-            </button>
           </div>
         </div>
         {onClose && (
@@ -157,10 +148,6 @@ export function Sidebar({ onClose }: SidebarProps) {
           </button>
         </div>
       </nav>
-
-      {showChangelog && (
-        <ChangelogModal onClose={() => setShowChangelog(false)} />
-      )}
     </div>
   );
 }
